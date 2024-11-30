@@ -18,6 +18,33 @@ class _MyFormValidationState extends State<MyFormValidation> {
     super.dispose();
   }
 
+  String? _validateEmail(String? value) {
+    const String expression = "[a-zA-Z0-9+._%-+]{1,256}"
+        "\\@"
+        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}"
+        "("
+        "\\."
+        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}"
+        ")+";
+    final RegExp regExp = RegExp(expression);
+
+    if (value!.isEmpty) {
+      return 'Email wajib diisi';
+    }
+
+    if (!regExp.hasMatch(value)) {
+      return "Tolong inputkan email yang valid!";
+    }
+    return null;
+  }
+
+  String? _validateNama(String? value) {
+    if (value!.length < 3) {
+      return 'Masukkan setidaknya 3 karakter';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +53,7 @@ class _MyFormValidationState extends State<MyFormValidation> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(8.0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -45,7 +72,7 @@ class _MyFormValidationState extends State<MyFormValidation> {
                             Radius.circular(10),
                           ),
                         ),
-                        fillColor: Color.fromARGB(255, 222, 254, 255),
+                        fillColor: Color.fromARGB(255, 222, 249, 255),
                         filled: true,
                       ),
                     ),
@@ -63,12 +90,12 @@ class _MyFormValidationState extends State<MyFormValidation> {
                             Radius.circular(10),
                           ),
                         ),
-                        fillColor: Color.fromARGB(255, 222, 254, 255),
+                        fillColor: Color.fromARGB(255, 222, 249, 255),
                         filled: true,
                       ),
                     ),
                   ),
-                            ElevatedButton(
+                  ElevatedButton(
                     child: const Text("Submit"),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
@@ -103,29 +130,4 @@ class _MyFormValidationState extends State<MyFormValidation> {
           ),
         ));
   }
-}
-
-String? _validateEmail(String? value) {
-  const String expression = "[a-zA-Z0-9+._%-+]{1,256}"
-      "\\@"
-      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}"
-      "("
-      "\\."
-      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}"
-      ")+";
-  final RegExp regExp = RegExp(expression);
-  if (value!.isEmpty) {
-    return 'Email wajib diisi';
-  }
-  if (!regExp.hasMatch(value)) {
-    return "Tolong inputkan email yang valid!";
-  }
-  return null;
-}
-
-String? _validateNama(String? value) {
-  if (value!.length < 3) {
-    return 'Masukkan setidaknya 3 karakter';
-  }
-  return null;
 }
